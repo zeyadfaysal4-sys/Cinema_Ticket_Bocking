@@ -1,0 +1,160 @@
+﻿@model Cinema_Ticket_Bocking.ViewModel.MovieVM
+
+<div class="container">
+
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">Update Movie</h2>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" name="Name" value="@Model.Movie.Name" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Main Image</label>
+
+            <input type="file" name="imgfile" class="form-control"
+                   accept="image/*" onchange="previewMainImage(event)" />
+        </div>
+
+        <div class="mb-3">
+            <img id="mainImage"
+                 src="~/Images/MovieSupImages/Img/@Model.Movie.MainImg"
+                 style="width:200px;height:200px;object-fit:cover;border:1px solid #ccc;padding:5px;border-radius:10px;" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Sub Images</label>
+
+            <input type="file" name="SupImagesfile" multiple class="form-control"
+                   accept="image/*" onchange="previewSubImages(event)" />
+        </div>
+
+        <div id="subImagesContainer" class="d-flex flex-wrap gap-2 mb-3">
+            @foreach (var img in Model.Movie.SupImages)
+            {
+                <img src="~/Images/MovieSupImages/@img"
+                     style="width:120px;height:120px;object-fit:cover;border:1px solid #ccc;padding:5px;border-radius:10px;" />
+            }
+        </div>
+
+       
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="Description" style="height:100px">@Model.Movie.Description</textarea>
+        </div>
+
+       
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input class="form-control" name="Price" type="number" value="@Model.Movie.Price" />
+        </div>
+
+      
+        <div class="mb-3">
+            <label class="form-label">Date Time</label>
+            <input class="form-control" name="Date"
+                   type="datetime-local"
+                   value="@Model.Movie.Date.ToString("yyyy-MM-ddTHH:mm")" />
+        </div>
+
+        
+        <div class="mb-3">
+            <label class="form-label">Actors</label>
+            <select name="ActorId" class="form-select" multiple>
+                @foreach (var item in Model.Actors)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+
+       
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <select name="CategoryId" class="form-select">
+                @foreach (var item in Model.Categories)
+                {
+                    <option value="@item.Id"
+                            selected="@(item.Id == Model.Movie.CategoryId)">
+                        @item.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        
+        <div class="mb-3">
+            <label class="form-label">Cinema</label>
+            <select name="CinemaId" class="form-select">
+                @foreach (var item in Model.Cinemas)
+                {
+                    <option value="@item.Id"
+                            selected="@(item.Id == Model.Movie.CinemaId)">
+                        @item.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="Status" class="form-select">
+                <option value="true" selected="@(Model.Movie.Status == true)">Active</option>
+                <option value="false" selected="@(Model.Movie.Status == false)">Inactive</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+    </form>
+</div>
+@section Scripts {
+    <script>
+       
+        function previewMainImage(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById("mainImage").src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        
+        function previewSubImages(event) {
+            var container = document.getElementById("subImagesContainer");
+            container.innerHTML = "";
+
+            for (let i = 0; i < event.target.files.length; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.src = e.target.result;
+
+                    img.style.width = "120px";
+                    img.style.height = "120px";
+                    img.style.objectFit = "cover";
+                    img.style.border = "1px solid #ccc";
+                    img.style.padding = "5px";
+                    img.style.borderRadius = "10px";
+
+                    container.appendChild(img);
+                };
+
+                reader.readAsDataURL(event.target.files[i]);
+            }
+        }
+    </script>
+}

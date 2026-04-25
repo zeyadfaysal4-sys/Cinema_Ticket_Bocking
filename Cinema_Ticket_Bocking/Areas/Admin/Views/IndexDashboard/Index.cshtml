@@ -1,0 +1,55 @@
+﻿@using Cinema_Ticket_Bocking.ViewModel  DashboardVM
+
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+            <div class="card bg-primary text-white p-3">
+                <h5>Movies</h5>
+                <h3>@Model.MoviesCount</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white p-3">
+                <h5>Users</h5>
+                <h3>@Model.UsersCount</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-warning text-white p-3">
+                <h5>Bookings</h5>
+                <h3>@Model.BookingsCount</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-danger text-white p-3">
+                <h5>Revenue</h5>
+                <h3>$@Model.Revenue</h3>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="myChart"></canvas>
+
+<script>
+    var ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+    type: 'bar',
+    data: {
+    labels: ['Movies', 'Users', 'Bookings'],
+    datasets: [{
+    label: 'System Data',
+    data: [@Model.MoviesCount, @Model.UsersCount, @Model.BookingsCount],
+    }]
+    }
+    });
+</script>

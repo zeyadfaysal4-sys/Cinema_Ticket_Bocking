@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Cinema_Ticket_Bocking.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<header class="bg-dark py-5">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bolder">Movies</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Browse all movies</p>
+    </div>
+</header>
+
+
+<section class="py-3 filter-bar">
+    <div class="container">
+        <form method="get">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control"
+                           placeholder="Movie Name"
+                           name="Name"
+                           value="@ViewBag.Name" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="number" class="form-control"
+                           placeholder="Price"
+                           name="Price"
+                           value="@ViewBag.Price" />
+                </div>
+
+                <div class="col-md-2">
+                    <select name="CategoryId" class="form-control">
+                        <option value="0">-- Category --</option>
+                        @foreach (var item in ViewBag.Categories)
+                        {
+                            <option value="@item.Id"
+                                    selected="@(item.Id == ViewBag.CategoryId)">
+                                @item.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select name="CinemaId" class="form-control">
+                        <option value="0">-- Cinema --</option>
+                        @foreach (var item in ViewBag.Cinemas)
+                        {
+                            <option value="@item.Id"
+                                    selected="@(item.Id == ViewBag.CinemaId)">
+                                @item.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100">
+                        Filter
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<section class="py-5">
+    <div class="container">
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100">
+
+                            <div class="badge bg-dark text-white position-absolute"
+                                 style="top:0.5rem;right:0.5rem">
+                                @item.Category?.Name
+                            </div>
+
+                            <img class="card-img-top"
+                                 src="~/Images/MovieSupImages/Img/@item.MainImg"
+                                 style="height:250px;object-fit:cover;" />
+
+                            <div class="card-body text-center">
+                                <h5>@item.Name</h5>
+                                <p>@item.Price EGP</p>
+                            </div>
+
+                            <div class="card-footer text-center">
+                                <a class="btn btn-outline-dark" href="/Custmer/Booking/Create?movieId=@item.Id">
+                                    Book Now
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-danger">
+                No movies found
+            </div>
+        }
+
+    </div>
+</section>
+
+
+<nav>
+    <div class="d-flex justify-content-center">
+        <ul class="pagination">
+
+            <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                       href="?Page=@(ViewBag.CurrentPage - 1)">
+                    Previous
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" href="?Page=@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage >= ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                       href="?Page=@(ViewBag.CurrentPage + 1)">
+                    Next
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>

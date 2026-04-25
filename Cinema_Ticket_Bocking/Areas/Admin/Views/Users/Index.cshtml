@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Cinema_Ticket_Bocking.Models.User>
+
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">All Users</h2>
+        </div>
+        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+            <a href="/Admin/Users/Create" class="btn btn-success">Create</a>
+        </div>
+    </div>
+@if (TempData["Success-Notification"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success-Notification"]
+    </div>
+}
+</div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">No Users Found</td>
+            </tr>
+        }
+    </tbody>
+</table>

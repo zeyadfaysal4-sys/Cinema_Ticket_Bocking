@@ -1,0 +1,30 @@
+﻿@model List<Cinema_Ticket_Bocking.Models.Book>
+
+<div class="container mt-4">
+
+    <h2>Bookings</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Tickets</th>
+                <th>Total Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MovieId</td>
+                    <td>@item.NumberOfTickets</td>
+                    <td>@item.TotalPrice</td>
+                    <td>@item.BookingDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
