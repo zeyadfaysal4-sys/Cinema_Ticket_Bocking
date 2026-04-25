@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Actors>
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">All Actors</h2>
+        </div>
+        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+            <a href="/Admin/Actors/Create" class="btn btn-success">Create</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Img</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row"> @item.Id</th>
+                            <td>@item.Name</td>
+                            <td>
+                                <img src="~/Images/ActorsImages/@item.Img" width="100" />
+                            </td>
+                            <td>
+                                <a href="/Admin/Actors/Update/@item.Id" type="button" class="btn btn-warning">Update</a>
+                                <a href="/Admin/Actors/Delete/@item.Id"
+                                       class="btn btn-danger btn-delete">
+                                    Delete
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const deleteButtons = document.querySelectorAll(".btn-delete");
+
+        deleteButtons.forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault(); 
+
+                const url = this.getAttribute("href");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+
+    });
+</script>

@@ -1,0 +1,52 @@
+﻿@model Cinema_Ticket_Bocking.Models.Book
+
+<div class="container mt-4">
+
+    <h2>Create Booking</h2>
+
+    <form method="post">
+
+        <!-- Movie -->
+        <div class="mb-3">
+            <label class="form-label">Movie</label>
+            <select asp-for="MovieId" class="form-select">
+                <option value="">-- Select Movie --</option>
+                @foreach (var movie in ViewBag.Movies)
+                {
+                    <option value="@movie.Id">@movie.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Number of Tickets -->
+        <div class="mb-3">
+            <label class="form-label">Number of Tickets</label>
+            <input asp-for="NumberOfTickets" class="form-control" type="number" min="1" />
+        </div>
+
+        <!-- Show Time -->
+        <div class="mb-3">
+            <label class="form-label">Show Time</label>
+            <input asp-for="ShowTime" class="form-control" type="datetime-local" />
+        </div>
+
+        <!-- Total Price -->
+        <div class="mb-3">
+            <label class="form-label">Total Price</label>
+            <input asp-for="TotalPrice" class="form-control" type="number" step="0.01" />
+        </div>
+
+        <!-- Status -->
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select asp-for="Status" class="form-select">
+                <option value="true">Confirmed</option>
+                <option value="false">Cancelled</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Book Now</button>
+
+    </form>
+
+</div>
