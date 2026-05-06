@@ -4,6 +4,7 @@ using Cinema_Ticket_Bocking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cinema_Ticket_Bocking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260505095128_edittable")]
+    partial class edittable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,35 +123,6 @@ namespace Cinema_Ticket_Bocking.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Cinema_Ticket_Bocking.Models.ApplicationUserOto", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsValied")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OTP")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ValiedTo")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("ApplicationUserOtos");
                 });
 
             modelBuilder.Entity("Cinema_Ticket_Bocking.Models.Book", b =>
@@ -444,17 +418,6 @@ namespace Cinema_Ticket_Bocking.Migrations
                     b.HasOne("Cinema_Ticket_Bocking.Models.Movie", null)
                         .WithMany("Actors")
                         .HasForeignKey("MovieId");
-                });
-
-            modelBuilder.Entity("Cinema_Ticket_Bocking.Models.ApplicationUserOto", b =>
-                {
-                    b.HasOne("Cinema_Ticket_Bocking.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Cinema_Ticket_Bocking.Models.Book", b =>

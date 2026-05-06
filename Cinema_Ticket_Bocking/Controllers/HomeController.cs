@@ -1,5 +1,6 @@
 using Cinema_Ticket_Bocking.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Cinema_Ticket_Bocking.Controllers
