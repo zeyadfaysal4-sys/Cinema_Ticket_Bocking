@@ -1,12 +1,16 @@
 ﻿using Cinema_Ticket_Bocking.Data;
 using Cinema_Ticket_Bocking.Models;
 using Cinema_Ticket_Bocking.Repository;
+using Cinema_Ticket_Bocking.Utiltes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE},{CD.EMPLOYEE_ROLE}")]
+
     public class CinemaController : Controller
     {
         //ApplicationDbContext _context = new ApplicationDbContext();
@@ -62,6 +66,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
             await _contextRepository.CommittAsync();
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
@@ -75,6 +80,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
             }
             return View(cinema);
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         [HttpPost]
         public async Task<IActionResult> Update(Cinema cinema, IFormFile imgfile)
         {
@@ -111,6 +117,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

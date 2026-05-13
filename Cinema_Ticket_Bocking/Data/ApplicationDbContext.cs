@@ -17,8 +17,11 @@ namespace Cinema_Ticket_Bocking.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Book> Bookin { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ApplicationUserOtp> ApplicationUserOtos { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+
 
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

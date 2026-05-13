@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Actors>
+﻿@using Cinema_Ticket_Bocking.Utiltes
+@model IEnumerable<Actors>
 <div class="container">
     <div class="row mb-3 align-items-center my-3">
         <div class="col-md-6">
@@ -30,6 +31,9 @@
                             <td>
                                 <img src="~/Images/ActorsImages/@item.Img" width="100" />
                             </td>
+                            @if (User.IsInRole(CD.SUPER_ADMIN_ROLE) || User.IsInRole(CD.ADMIN_ROLE))
+                            {
+                                
                             <td>
                                 <a href="/Admin/Actors/Update/@item.Id" type="button" class="btn btn-warning">Update</a>
                                 <a href="/Admin/Actors/Delete/@item.Id"
@@ -37,6 +41,11 @@
                                     Delete
                                 </a>
                             </td>
+                            }
+                            else 
+                            {
+                                <td> No Action !!!</td>
+							}
 
                         </tr>
                     }

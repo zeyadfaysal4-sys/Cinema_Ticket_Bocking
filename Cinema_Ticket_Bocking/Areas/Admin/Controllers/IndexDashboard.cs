@@ -1,11 +1,15 @@
 ﻿using Cinema_Ticket_Bocking.Data;
+using Cinema_Ticket_Bocking.Utiltes;
 using Cinema_Ticket_Bocking.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE},{CD.EMPLOYEE_ROLE}")]
+
     public class IndexDashboard : Controller
     {
         ApplicationDbContext _context ;
