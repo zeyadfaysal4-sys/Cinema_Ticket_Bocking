@@ -2,6 +2,7 @@
 using Cinema_Ticket_Bocking.FilterMovieVm;
 using Cinema_Ticket_Bocking.Models;
 using Cinema_Ticket_Bocking.Repository;
+using Cinema_Ticket_Bocking.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.WebRequestMethods;
@@ -13,10 +14,10 @@ namespace Cinema_Ticket_Bocking.Areas.Custmer.Controllers
     {
         //ApplicationDbContext _context = new ApplicationDbContext();
 
-        IRepository<Movie> _movieRepository;
-        IRepository<Category> _categoryRepository;
-        IRepository<Actors> _actorsRepository;
-        IRepository<Cinema> _cinemaRepository;
+        private readonly IRepository<Movie> _movieRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Actors> _actorsRepository;
+        private readonly IRepository<Cinema> _cinemaRepository;
         //IRepository<Cinema> _cinemaRepository;
         public HomeController(IRepository<Movie> movieRepository, IRepository<Category> categoryRepository, IRepository<Actors> actorsRepository, IRepository<Cinema> cinemaRepository)
         {
@@ -28,7 +29,7 @@ namespace Cinema_Ticket_Bocking.Areas.Custmer.Controllers
 
         public IActionResult Index()
         {
-           return View();
+            return View();
         }
         public async Task<IActionResult> Custmers(FilterMovieVM filter)
         {
@@ -82,6 +83,25 @@ namespace Cinema_Ticket_Bocking.Areas.Custmer.Controllers
             return View(result);
 
         }
-        
+        public async Task<IActionResult> ProductDetailes(int id)
+        {
+            var movie = await _movieRepository.GetoneAsync(m => m.Id == id, icludes: [m => m.Category]);
+            if (movie is null)
+            {
+                return NotFound();
+            }
+
+            var relatedMovies = await _movieRepository.GetAsync(m => m.CategoryId == movie.CategoryId && m.Id != movie.Id, icludes: [m => m.Category]);
+            relatedMovies = relatedMovies.Skip(0).Take(4);
+            if (relatedMovies is null)
+            {
+                return NotFound();
+            }
+            return View(new MovieWithRelatedVM()
+            {
+                Movie = movie,
+                RelatedMovies = relatedMovies
+            });
+        }
     }
 }

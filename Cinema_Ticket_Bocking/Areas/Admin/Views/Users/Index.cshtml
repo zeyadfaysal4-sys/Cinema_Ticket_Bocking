@@ -1,45 +1,72 @@
-﻿@model IEnumerable<Cinema_Ticket_Bocking.Models.User>
-
+﻿@using Cinema_Ticket_Bocking.Models
+@using Cinema_Ticket_Bocking.Utiltes
+@model IEnumerable<ApplicationUser>
 <div class="container">
-    <div class="row mb-3 align-items-center my-3">
-        <div class="col-md-6">
-            <h2 class="display-6">All Users</h2>
-        </div>
-        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
-            <a href="/Admin/Users/Create" class="btn btn-success">Create</a>
-        </div>
-    </div>
-@if (TempData["Success-Notification"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success-Notification"]
-    </div>
-}
-</div>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-        </tr>
-    </thead>
+	<div class="row mb-3 align-items-center my-3">
+		<div class="col-md-6">
+			<h2 class="display-6">All Users</h2>
+		</div>
+		<div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+			<a href="/Admin/Category/Create" class="btn btn-success">Create</a>
+		</div>
+	</div>
+    
+	<div class="row">
+		<div class="col-12">
 
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="2" class="text-center">No Users Found</td>
-            </tr>
-        }
-    </tbody>
-</table>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Name</th>
+						<th scope="col">UserName</th>
+						<th scope="col">Email</th>
+						<th scope="col">EmailConfirmed</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<th scope="row"> @item.Id</th>
+							<td>@item.UserName</td>
+							<td>@item.Email</td>
+							<td>
+								@if (item.EmailConfirmed)
+								{
+									<span class="badge text-bg-success">
+										Confirmed
+									</span>
+								}
+								else
+								{
+									<span class="badge text-bg-danger">
+										Not Confirmed
+									</span>
+								}
+							</td>
+							<td>
+
+								@if (item.LockoutEnd is null || DateTime.UtcNow > item.LockoutEnd )
+								{
+									<a href="/Admin/Users/LockUnLock/@item.Id" type="button" class="btn btn-danger">Lock</a>
+								}
+								else
+								{
+									<a href="/Admin/Users/LockUnLock/@item.Id" type="button" class="btn btn-warning">UnLock</a>
+								}
+
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	
+	<partial name="_NotificationPartial" />
+}

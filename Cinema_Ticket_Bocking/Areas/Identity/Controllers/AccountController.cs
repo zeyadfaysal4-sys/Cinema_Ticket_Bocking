@@ -1,5 +1,6 @@
 ﻿using Cinema_Ticket_Bocking.Models;
 using Cinema_Ticket_Bocking.Repository;
+using Cinema_Ticket_Bocking.Utiltes;
 using Cinema_Ticket_Bocking.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -61,6 +62,7 @@ namespace Cinema_Ticket_Bocking.Areas.Identity.Controllers
             await _emailSender.SendEmailAsync(registerVM.Email,
                 "Cinema Confirm Email",
                  $"<h1>Click <a href={link}> here </a> To Confirm Your Email</h1>");
+            await _userManager.AddToRoleAsync(user, CD.CUSTOMER_ROLE);
             return RedirectToAction(nameof(Login));
         }
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -226,7 +228,7 @@ namespace Cinema_Ticket_Bocking.Areas.Identity.Controllers
             {
                 return RedirectToAction(nameof(Login));
             }
-            return View(new NewPasswordVM { UserId = userId , Token = token});
+            return View(new NewPasswordVM { UserId = userId, Token = token });
         }
         [HttpPost]
         public async Task<IActionResult> NewPassword(NewPasswordVM newPasswordVM)
@@ -254,5 +256,16 @@ namespace Cinema_Ticket_Bocking.Areas.Identity.Controllers
             }
             return RedirectToAction(nameof(Login));
         }
+
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
+        }
+
     }
 }

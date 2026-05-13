@@ -2,13 +2,17 @@
 using Cinema_Ticket_Bocking.FilterMovieVm;
 using Cinema_Ticket_Bocking.Models;
 using Cinema_Ticket_Bocking.Repository;
+using Cinema_Ticket_Bocking.Utiltes;
 using Cinema_Ticket_Bocking.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE},{CD.EMPLOYEE_ROLE}")]
+
     public class MovieController : Controller
     {
         //ApplicationDbContext _context = new ApplicationDbContext();
@@ -145,7 +149,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
@@ -172,7 +176,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
                 Actors = Actors,
             });
         }
-
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         [HttpPost]
         public async Task<IActionResult> Update(Movie movie, IFormFile imgfile, List<IFormFile> SupImagesfile)
         {
@@ -266,6 +270,7 @@ namespace Cinema_Ticket_Bocking.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE},{CD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id)
         {
             //var movie= _context.Movies.FirstOrDefault(a => a.Id == id);
