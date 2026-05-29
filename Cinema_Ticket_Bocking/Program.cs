@@ -60,6 +60,7 @@ namespace Cinema_Ticket_Bocking
 
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
