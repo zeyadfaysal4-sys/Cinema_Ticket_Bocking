@@ -66,7 +66,7 @@ namespace Cinema_Ticket_Bocking.Areas.Custmer.Controllers
             }
             
             var carts = await _cartRepository.GetAsync(m => m.ApplicationUserId == user.Id, icludes: [c => c.Movie]);
-            var TotalPrice = carts.Sum(c => c.Price);
+            var TotalPrice = carts.Sum(c => c.Price * c.Count);
 
             ViewBag.TotalPrice = TotalPrice;
             return View(carts);

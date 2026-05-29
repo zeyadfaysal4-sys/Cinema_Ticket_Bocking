@@ -25,11 +25,6 @@
             IsValied = true;
             ValiedTo = DateTime.UtcNow.AddMinutes(20);
             CreatedAt = DateTime.UtcNow;
-
-
-
-
-
         }
     }
 }
