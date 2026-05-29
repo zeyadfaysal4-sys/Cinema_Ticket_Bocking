@@ -61,6 +61,12 @@ namespace Cinema_Ticket_Bocking
             //builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
+                option.LoginPath = "/Identity/Account/Login";
+                option.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                option.SlidingExpiration = true;
+
+            });
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
